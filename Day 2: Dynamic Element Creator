@@ -1,17 +1,2 @@
-function reverseStringLoop(str){
-    let reversed = "";
-    for (let i = str.length - 1; i >= 0; i--){
-        reversed += str[i];
-    }
-    return reversed;
-}
-function reverseStringBuiltIn(str){
-    return str.split(``).reverse().join(``);
-}
-function reverseStringReduce(str){
-    return str.split('').reduce((rev, char) => char + rev, '');
-}
-console.log(reverseStringLoop("hello"));
-console.log(reverseStringBuiltIn("hello"));
-console.log(reverseStringReduce("hello"));
+
 
