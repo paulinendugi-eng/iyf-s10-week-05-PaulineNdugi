@@ -1,3 +1,19 @@
+<script>
+let hidden = false;
 
+document.getElementById("removeBtn").addEventListener("click", function () {
+    const images = document.querySelectorAll("img");
+
+    if (!hidden) {
+        images.forEach(img => img.style.display = "none");
+        this.textContent = "Show Images";
+        hidden = true;
+    } else {
+        images.forEach(img => img.style.display = "block");
+        this.textContent = "Hide Images";
+        hidden = false;
+    }
+});
+</script>
 
 
