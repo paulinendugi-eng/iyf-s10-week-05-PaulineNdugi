@@ -1,1 +1,28 @@
+const header = document.querySelector("header");
+const nav = header.querySelector("nav");
 
+console.log(nav);
+
+
+const firstNavLink = document.querySelector("nav a");
+const parentLi = firstNavLink.parentElement;
+
+console.log(parentLi);
+
+
+const article = document.querySelector("article");
+const nextSection = article.nextElementSibling;
+
+console.log(nextSection);
+
+
+const ul = document.querySelector("ul");
+const listItems = ul.children;
+
+console.log(listItems);
+
+
+const footer = document.querySelector("footer");
+const body = footer.parentElement.parentElement;
+
+console.log(body);
