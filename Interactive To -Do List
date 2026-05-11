@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>To-Do List</title>
 
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 8px;
+}
+
+button {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.filters {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter.active {
+    font-weight: bold;
+    color: blue;
+}
+
+#todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.completed .todo-text {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.delete-btn {
+    display: none;
+    background: red;
+    color: white;
+    border: none;
+}
+
+.todo-item:hover .delete-btn {
+    display: inline;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>My To-Do List</h1>
+
+    <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="What needs to be done?" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <div class="filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="active">Active</button>
+        <button class="filter" data-filter="completed">Completed</button>
+    </div>
+
+    <ul id="todo-list"></ul>
+
+    <div class="stats">
+        <span id="items-left">0 items left</span>
+        <button id="clear-completed">Clear Completed</button>
+    </div>
+</div>
+
+<script>
+const form = document.getElementById("todo-form");
+const input = document.getElementById("todo-input");
+const todoList = document.getElementById("todo-list");
+const itemsLeft = document.getElementById("items-left");
+const filters = document.querySelectorAll(".filter");
+const clearCompletedBtn = document.getElementById("clear-completed");
+
+let todos = [];
+let currentFilter = "all";
+
+function createTodoElement(todo) {
+    const li = document.createElement("li");
+    li.className = "todo-item";
+    li.dataset.id = todo.id;
+
+    if (todo.completed) li.classList.add("completed");
+
+    li.innerHTML = `
+        <span class="todo-text">${todo.text}</span>
+        <button class="delete-btn">X</button>
+    `;
+
+    li.addEventListener("click", (e) => {
+        if (e.target.classList.contains("delete-btn")) return;
+        toggleTodo(todo.id);
+    });
+
+    li.querySelector(".delete-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        deleteTodo(todo.id);
+    });
+
+    li.querySelector(".todo-text").addEventListener("dblclick", function () {
+        const inputEdit = document.createElement("input");
+        inputEdit.value = todo.text;
+
+        this.replaceWith(inputEdit);
+        inputEdit.focus();
+
+        inputEdit.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                todo.text = inputEdit.value;
+                renderTodos();
+            }
+            if (e.key === "Escape") {
+                renderTodos();
+            }
+        });
+    });
+
+    return li;
+}
+
+function renderTodos() {
+    todoList.innerHTML = "";
+
+    let filtered = todos;
+
+    if (currentFilter === "active") {
+        filtered = todos.filter(t => !t.completed);
+    } else if (currentFilter === "completed") {
+        filtered = todos.filter(t => t.completed);
+    }
+
+    filtered.forEach(todo => {
+        todoList.appendChild(createTodoElement(todo));
+    });
+
+    updateStats();
+}
+
+function addTodo(text) {
+    todos.push({
+        id: Date.now(),
+        text,
+        completed: false
+    });
+
+    renderTodos();
+}
+
+function toggleTodo(id) {
+    todos = todos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+
+    renderTodos();
+}
+
+function deleteTodo(id) {
+    todos = todos.filter(todo => todo.id !== id);
+    renderTodos();
+}
+
+function updateStats() {
+    const left = todos.filter(t => !t.completed).length;
+    itemsLeft.textContent = `${left} item(s) left`;
+}
+
+function filterTodos(filter) {
+    currentFilter = filter;
+
+    filters.forEach(btn => {
+        btn.classList.remove("active");
+        if (btn.dataset.filter === filter) {
+            btn.classList.add("active");
+        }
+    });
+
+    renderTodos();
+}
+
+clearCompletedBtn.addEventListener("click", () => {
+    todos = todos.filter(t => !t.completed);
+    renderTodos();
+});
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const text = input.value.trim();
+    if (!text) return;
+
+    addTodo(text);
+    input.value = "";
+});
+
+filters.forEach(btn => {
+    btn.addEventListener("click", () => {
+        filterTodos(btn.dataset.filter);
+    });
+});
+
+renderTodos();
+</script>
+
+</body>
+</html>
