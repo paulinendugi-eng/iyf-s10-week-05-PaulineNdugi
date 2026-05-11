@@ -1,1 +1,68 @@
+document.getElementById("grandparent").addEventListener("click", () => {
+    console.log("Grandparent clicked");
+});
 
+document.getElementById("parent").addEventListener("click", () => {
+    console.log("Parent clicked");
+});
+
+document.getElementById("child").addEventListener("click", () => {
+    console.log("Child clicked");
+});
+
+Exercise 2: Event Delegation 
+
+const items = document.querySelectorAll("li");
+
+items.forEach(item => {
+    item.addEventListener("click", handleClick);
+});
+
+document.querySelector("ul").addEventListener("click", function (event) {
+
+    if (event.target.matches("li")) {
+        handleClick(event);
+    }
+
+    if (event.target.classList.contains("item")) {
+        handleClick(event);
+    }
+});
+
+function handleClick(event) {
+    console.log("Clicked:", event.target.textContent);
+
+const input = document.createElement("input");
+input.placeholder = "Add task...";
+
+const addBtn = document.createElement("button");
+addBtn.textContent = "Add Task";
+
+const ul = document.createElement("ul");
+
+document.body.append(input, addBtn, ul);
+
+addBtn.addEventListener("click", () => {
+    if (input.value.trim() === "") return;
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        <span class="task-text">${input.value}</span>
+        <button class="delete">X</button>
+    `;
+
+    ul.appendChild(li);
+    input.value = "";
+});
+
+ul.addEventListener("click", (event) => {
+
+    if (event.target.classList.contains("delete")) {
+        event.target.parentElement.remove();
+    }
+
+    if (event.target.classList.contains("task-text")) {
+        event.target.parentElement.classList.toggle("completed");
+    }
+});
