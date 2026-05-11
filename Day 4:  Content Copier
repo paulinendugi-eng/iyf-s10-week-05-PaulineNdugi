@@ -1,2 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Content Copier</title>
 
+  <style>
+    .box {
+      width: 220px;
+      height: 120px;
+      border: 2px solid black;
+      margin: 10px;
+      padding: 10px;
+      font-family: Arial;
+    }
+
+    #source {
+      background-color: #f0f0f0;
+    }
+
+    #target {
+      background-color: #dff0d8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Content Copier</h2>
+
+  <!-- SOURCE BOX -->
+  <div id="source" class="box" draggable="true">
+    This is SOURCE content 👋
+  </div>
+
+  <!-- BUTTON -->
+  <button onclick="copyContent()">Copy Content</button>
+
+  <!-- TARGET BOX -->
+  <div id="target" class="box">
+    Target will receive content here
+  </div>
+
+  <script>
+    
+    function copyContent() {
+      const source = document.getElementById("source");
+      const target = document.getElementById("target");
+
+      target.innerHTML = source.innerHTML;
+    }
+
+    const source = document.getElementById("source");
+
+    source.addEventListener("dragstart", function (e) {
+      e.dataTransfer.setData("text", source.innerHTML);
+    });
+
+    const target = document.getElementById("target");
+
+    target.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    target.addEventListener("drop", function (e) {
+      e.preventDefault();
+      const data = e.dataTransfer.getData("text");
+      target.innerHTML = data;
+    });
+  </script>
+
+</body>
+</html>
 
