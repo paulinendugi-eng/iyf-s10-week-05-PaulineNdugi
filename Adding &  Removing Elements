@@ -1,1 +1,54 @@
+Exercise 1: Creating Elements
 
+const newParagraph = document.createElement("p");
+newParagraph.textContent = "This is a new paragraph!";
+newParagraph.className = "content highlight";
+
+const article = document.querySelector("article");
+article.appendChild(newParagraph);  
+
+const firstParagraph = article.querySelector("p");
+article.insertBefore(newParagraph, firstParagraph);  
+
+article.prepend(newParagraph);         
+article.append(newParagraph);          
+firstParagraph.before(newParagraph);   
+firstParagraph.after(newParagraph);
+
+Exercise 2: Removing Elements
+
+const footer = document.querySelector("footer");
+footer.remove();
+
+const nav = document.querySelector("nav");
+const lastLink = nav.querySelector("li:last-child");
+lastLink.parentElement.removeChild(lastLink);
+
+article.innerHTML = "";  
+while (article.firstChild) {
+    article.removeChild(article.firstChild);
+}
+
+Exercise 3: Cloning Elements
+
+const navItem = document.querySelector(".nav-link").parentElement;
+const clone = navItem.cloneNode(true);  
+clone.querySelector("a").textContent = "New Link";
+document.querySelector(".nav-list").appendChild(clone);
+Build: Create a function that adds a new nav item dynamically:
+
+function addNavItem(text, href) {
+    const li = document.createElement("li");
+
+    const a = document.createElement("a");
+    a.textContent = text;
+    a.href = href;
+    a.className = "nav-link";
+
+    li.appendChild(a);
+
+    document.querySelector(".nav-list").appendChild(li);
+}
+
+addNavItem("Blog", "/blog");
+addNavItem("Portfolio", "/portfolio");
