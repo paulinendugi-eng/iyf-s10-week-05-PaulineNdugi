@@ -1,1 +1,44 @@
+Exercise 1: Basic Events
+
+const button = document.createElement("button");
+button.textContent = "Click Me";
+document.body.appendChild(button);
+
+
+button.addEventListener("click", function() {
+    console.log("Button clicked!");
+});
+
+button.addEventListener("click", () => {
+    console.log("Clicked again!");
+});
+
+function handleClick() {
+    console.log("Handled!");
+}
+button.addEventListener("click", handleClic
+button.removeEventListener("click", handleClick);
+
+Exercise 2: Event Types
+element.addEventListener("click", handler);
+element.addEventListener("dblclick", handler);
+element.addEventListener("mouseenter", handler);
+element.addEventListener("mouseleave", handler);
+element.addEventListener("mousemove", handler);
+
+input.addEventListener("keydown", handler);
+input.addEventListener("keyup", handler);
+input.addEventListener("keypress", handler);  
+
+form.addEventListener("submit", handler);
+input.addEventListener("focus", handler);
+input.addEventListener("blur", handler);
+input.addEventListener("input", handler);     
+input.addEventListener("change", handler);    
+
+window.addEventListener("load", handler);
+window.addEventListener("resize", handler);
+window.addEventListener("scroll", handler);
+Build: Click Counter
+
 
