@@ -1,2 +1,56 @@
 
+import { useState } from 'react';
 
+function DynamicParagraphs() {
+
+    const [paragraphs, setParagraphs] = useState([]);
+
+    const addParagraph = () => {
+        const newParagraph = `Paragraph ${paragraphs.length + 1}`;
+
+        setParagraphs([...paragraphs, newParagraph]);
+    };
+
+    const deleteParagraph = (indexToDelete) => {
+        const updatedParagraphs = paragraphs.filter(
+            (_, index) => index !== indexToDelete
+        );
+
+        setParagraphs(updatedParagraphs);
+    };
+
+    return (
+        <div>
+            <h1>Dynamic Paragraph Creator</h1>
+
+            <button onClick={addParagraph}>
+                Add Paragraph
+            </button>
+
+            {paragraphs.map((paragraph, index) => (
+                <div key={index}>
+                    <p>{paragraph}</p>
+
+                    <button onClick={() => deleteParagraph(index)}>
+                        Delete
+                    </button>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default DynamicParagraphs;
+
+
+import DynamicParagraphs from './components/DynamicParagraphs';
+
+function App() {
+    return (
+        <div>
+            <DynamicParagraphs />
+        </div>
+    );
+}
+
+export default App;
