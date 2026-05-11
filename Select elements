@@ -1,1 +1,21 @@
+const heading = document.querySelector("h1");
+console.log("h1:", heading);
 
+const allContent = document.getElementsByClassName("content");
+console.log("content elements:", allContent);
+
+const form = document.getElementById("contact-form");
+console.log("form:", form);
+
+const emailInput = document.querySelector("#email");
+console.log("email input:", emailInput);
+
+const navItems = document.querySelectorAll(".nav-list li");
+console.log("nav items:", navItems);
+
+const firstNavLink = document.querySelector(".nav-link");
+console.log("first nav link:", firstNavLink);
+
+const allParagraphs = document.getElementsByTagName("p");
+const lastParagraph = allParagraphs[allParagraphs.length - 1];
+console.log("last paragraph:", lastParagraph);
