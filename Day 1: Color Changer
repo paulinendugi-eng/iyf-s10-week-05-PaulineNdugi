@@ -1,2 +1,50 @@
+function ColorChanger() {
+    const generateRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
 
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        return color;
+    };
+
+    const changeHeadingColors = () => {
+        const randomColor = generateRandomColor();
+
+        const headings = document.querySelectorAll('h1, h2, h3');
+
+        headings.forEach((heading) => {
+            heading.style.color = randomColor;
+        });
+    };
+
+    return (
+        <div>
+            <h1>Main Heading</h1>
+            <h2>Sub Heading</h2>
+            <h3>Small Heading</h3>
+
+            <button onClick={changeHeadingColors}>
+                Change Heading Colors
+            </button>
+        </div>
+    );
+}
+
+export default ColorChanger;
+
+
+import ColorChanger from './components/ColorChanger';
+
+function App() {
+    return (
+        <div>
+            <ColorChanger />
+        </div>
+    );
+}
+
+export default App;
 
